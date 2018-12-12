@@ -75,7 +75,7 @@ public class Menu {
             printStringCenter("Player Controls: UP, DOWN, LEFT, RIGHT, SPACE", fnt1.getSize(), WINDOW_WIDTH / 2, 300);
             printStringCenter("Press M to Menu", fnt1.getSize(), WINDOW_WIDTH / 2, 450);
 
-        } else if (Game.getState() == GameState.END) {
+        } else if (Game.getState() == GameState.LOSE) {
 
             // DRAWS BACKGROUND
             g.fillRect(0, 0, 800, 600);
@@ -85,7 +85,7 @@ public class Menu {
             g.setFont(fnt0);
             g.setColor(Color.WHITE);
 
-            printStringCenter("PLAYER WINS!", fnt0.getSize(), WINDOW_WIDTH / 2, 200);
+            printStringCenter("YOU LOSE!", fnt0.getSize(), WINDOW_WIDTH / 2, 200);
 
             // SETS FONT
             Font fnt1 = new Font("arial", Font.BOLD, 30);

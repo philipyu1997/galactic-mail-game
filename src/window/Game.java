@@ -4,12 +4,17 @@ import framework.Entity;
 import framework.GameState;
 import framework.Peripheral;
 import framework.Texture;
+import objects.Asteroid;
+import objects.Base;
 import objects.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.List;
 
 /**
  * @author Philip Yu
@@ -27,14 +32,18 @@ public class Game extends JPanel {
     private Graphics2D buffer;
 
     // OBJECTS
-    private static GameState State = GameState.MENU;
+    private static GameState State = GameState.GAME;
     private static Game game;
     private static Handler handler;
     private static Texture tex;
     private Menu menu;
     private MapLoader mapLoader;
     private Player player;
+    private Base base;
+    private Asteroid asteroid;
     private Statistics statistics;
+    private Random rand = new Random();
+    public static List<Base> baseList = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -75,6 +84,24 @@ public class Game extends JPanel {
         handler = new Handler(this);
 
         mapLoader = new MapLoader();
+
+        for (int i = 0; i < 3; ++i) {
+            asteroid = new Asteroid(Entity.Asteroid,
+                    rand.nextInt(WINDOW_WIDTH - tex.sprite_asteroid[0].getWidth()),
+                    rand.nextInt(WINDOW_HEIGHT - tex.sprite_asteroid[0].getHeight()),
+                    0, 0, 0, tex, handler);
+            handler.addObject(asteroid);
+        }
+
+
+        for (int i = 0; i < 3; ++i) {
+            base = new Base(Entity.Base,
+                    rand.nextInt(WINDOW_WIDTH - tex.sprite_base[0].getWidth()),
+                    rand.nextInt(WINDOW_HEIGHT - tex.sprite_base[0].getHeight()),
+                    tex, handler);
+            baseList.add(base);
+            handler.addObject(base);
+        }
 
         player = new Player(Entity.Flying, 100, 100, 0, 0, 0, tex, handler);
         handler.addObject(player);
@@ -157,6 +184,18 @@ public class Game extends JPanel {
     public static Texture getInstance() {
 
         return tex;
+
+    }
+
+    public static List<Base> getBaseList() {
+
+        return baseList;
+
+    }
+
+    public static void setBaseList(List<Base> baseList) {
+
+        Game.baseList = baseList;
 
     }
 

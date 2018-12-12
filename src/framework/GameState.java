@@ -8,6 +8,7 @@ public enum GameState {
     MENU,
     HELP,
     GAME,
-    END
+    WIN,
+    LOSE,
 
 } // end enum GameState

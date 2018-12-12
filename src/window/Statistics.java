@@ -16,21 +16,11 @@ public class Statistics {
     private static int spaceY = 15;
 
     // OBJECTS
-    private static Player player, p2;
-    private static MapLoader mapLoader;
-    private static Handler handler;
+    private static Player player;
 
     public Statistics(Player player) {
 
         this.player = player;
-        this.handler = handler;
-        mapLoader = new MapLoader();
-
-    }
-
-    public static void renderMapSkeleton(Graphics g) {
-
-//        mapLoader.loadW(g);
 
     }
 
@@ -48,6 +38,8 @@ public class Statistics {
         drawString(g, "PlayerY: " + player.getY());
         drawString(g, "PlayerAngle: " + player.getAngle());
         drawString(g, "PlayerRev:" + player.getRevolutions());
+        drawString(g, "");
+        drawString(g, "Collide: " + player.isCollidable());
         drawString(g, "");
 
     }

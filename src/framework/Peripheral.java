@@ -18,7 +18,7 @@ public class Peripheral extends KeyAdapter implements MouseListener, MouseMotion
     private static int mouseX, mouseY;
 
     // VARIABLES
-    private int up, down, left, right, shoot;
+    private int up, down, left, right;
 
     // OBJECTS
     private Player player;
@@ -121,7 +121,7 @@ public class Peripheral extends KeyAdapter implements MouseListener, MouseMotion
                 System.exit(1);
             }
 
-        } else if (Game.getState() == GameState.END) {
+        } else if (Game.getState() == GameState.LOSE) {
 
             if (key == KeyEvent.VK_Q) {
                 System.out.println("\nExiting...");

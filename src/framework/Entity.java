@@ -8,4 +8,9 @@ public enum Entity {
     Flying,
     Landed,
 
+    Base,
+    Asteroid,
+
+    Explosion,
+
 } // end enum Entity

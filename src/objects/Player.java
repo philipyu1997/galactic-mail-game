@@ -1,9 +1,6 @@
 package objects;
 
-import framework.Entity;
-import framework.GameObject;
-import framework.MovableObject;
-import framework.Texture;
+import framework.*;
 import window.Game;
 import window.Handler;
 
@@ -24,15 +21,19 @@ public class Player extends MovableObject {
     // VARIABLES
     private int width;
     private int height;
+    private int counter;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
     private boolean LeftPressed;
+    private boolean collidable;
 
     // OBJECTS
     private BufferedImage playerImage;
     private Handler handler;
     private Texture tex;
+    private Explosion explosion;
+
 
     public Player(Entity entity, int x, int y, int velX, int velY, int angle, Texture tex, Handler handler) {
 
@@ -41,12 +42,7 @@ public class Player extends MovableObject {
         this.tex = Game.getInstance();
         this.width = tex.sprite_flying.getWidth();
         this.height = tex.sprite_flying.getHeight();
-
-        if (entity == Entity.Flying) {
-            playerImage = tex.sprite_flying;
-        } else if (entity == Entity.Landed) {
-            playerImage = tex.sprite_landed;
-        }
+        this.collidable = true;
 
     }
 
@@ -70,11 +66,16 @@ public class Player extends MovableObject {
         }
 
         checkBorder();
-        checkCollision();
 
     }
 
-    private void checkCollision() {
+    public void isDied() {
+
+        explosion = new Explosion(Entity.Explosion, x, y, tex);
+        explosion.playExplosionSound();
+        handler.addObject(explosion);
+        handler.removeObject(this);
+        Game.setState(GameState.LOSE);
 
     }
 
@@ -101,6 +102,12 @@ public class Player extends MovableObject {
     @Override
     public void render(Graphics g) {
 
+        if (entity == Entity.Flying) {
+            playerImage = tex.sprite_flying;
+        } else if (entity == Entity.Landed) {
+            playerImage = tex.sprite_landed;
+        }
+
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), playerImage.getWidth() / 2.0, playerImage.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
@@ -112,30 +119,6 @@ public class Player extends MovableObject {
     public Rectangle getBounds() {
 
         return (new Rectangle(x, y, tex.sprite_flying.getWidth(), tex.sprite_flying.getHeight()));
-
-    }
-
-    public Rectangle getBoundsTop() {
-
-        return (new Rectangle(x + (width / 2) - ((width / 2) / 2), y, width / 2, height / 2));
-
-    }
-
-    public Rectangle getBoundsBottom() {
-
-        return (new Rectangle(x + (width / 2) - ((width / 2) / 2), y + (height / 2), width / 2, height / 2));
-
-    }
-
-    public Rectangle getBoundsLeft() {
-
-        return (new Rectangle(x, y + 5, 5, height - 10));
-
-    }
-
-    public Rectangle getBoundsRight() {
-
-        return (new Rectangle(x + width - 5, y + 5, 5, height - 10));
 
     }
 
@@ -222,6 +205,30 @@ public class Player extends MovableObject {
     public BufferedImage getPlayerImage() {
 
         return playerImage;
+
+    }
+
+    public boolean isCollidable() {
+
+        return collidable;
+
+    }
+
+    public void setCollidable(boolean collidable) {
+
+        this.collidable = collidable;
+
+    }
+
+    public int getCounter() {
+
+        return counter;
+
+    }
+
+    public void setCounter(int counter) {
+
+        this.counter = counter;
 
     }
 
