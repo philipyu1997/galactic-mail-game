@@ -18,25 +18,25 @@ public class Base extends GameObject {
     // CONSTANTS
     private final int BASES_WIDTH;
     private final int BASES_HEIGHT;
+    private boolean baseArrival;
 
-    // VARIABLES
+    // IMAGES
     private BufferedImage baseImage;
-    private Texture tex;
+
+    // OBJECTS
     private Random rand = new Random();
     private Handler handler;
+    private Texture tex;
 
-    private boolean baseArrival;
-    boolean been;
 
     public Base(Entity entity, int x, int y, Texture tex, Handler handler) {
 
         super(entity, x, y);
         this.tex = tex;
         this.handler = handler;
-        baseArrival = false;
-        been = false;
+        this.baseArrival = false;
 
-        baseImage = tex.sprite_base[rand.nextInt(8)];
+        baseImage = tex.sprite_base[rand.nextInt(tex.sprite_base.length)];
         BASES_WIDTH = tex.sprite_base[0].getWidth();
         BASES_HEIGHT = tex.sprite_base[0].getHeight();
 
@@ -61,14 +61,16 @@ public class Base extends GameObject {
                     baseArrival = true;
                     player.setCollidable(false);
                     player.setEntity(Entity.Landed);
+                    player.setScore(player.getScore() - 2);
                 } else {
-
                     if (baseArrival) {
                         handler.removeObject(this);
                         player.setCollidable(true);
                         player.setEntity(Entity.Flying);
+                        player.setMoonCounter(player.getMoonCounter() + 1);
                     }
 
+                    player.setScore(player.getScore() + 1);
                     baseArrival = false;
                 }
             }

@@ -2,6 +2,7 @@ package window;
 
 import framework.GameState;
 import framework.Texture;
+import objects.Player;
 
 import java.awt.*;
 
@@ -29,6 +30,7 @@ public class Menu {
         if (Game.getState() == GameState.MENU) {
 
             // DRAWS TITLE
+            g.drawImage(tex.background, 0, 0, 800, 600, null);
             g.drawImage(tex.title, 0, 0, 800, 600, null);
 
             // SETS FONT
@@ -75,6 +77,24 @@ public class Menu {
             printStringCenter("Player Controls: UP, DOWN, LEFT, RIGHT, SPACE", fnt1.getSize(), WINDOW_WIDTH / 2, 300);
             printStringCenter("Press M to Menu", fnt1.getSize(), WINDOW_WIDTH / 2, 450);
 
+        } else if (Game.getState() == GameState.WIN) {
+
+            // DRAWS BACKGROUND
+            g.fillRect(0, 0, 800, 600);
+
+            // SETS FONT
+            Font fnt0 = new Font("arial", Font.BOLD, 50);
+            g.setFont(fnt0);
+            g.setColor(Color.WHITE);
+
+            printStringCenter("YOU WIN!", fnt0.getSize(), WINDOW_WIDTH / 2, 200);
+
+            // SETS FONT
+            Font fnt1 = new Font("arial", Font.BOLD, 30);
+            g.setFont(fnt1);
+
+            printStringCenter("Press Q to Quit", fnt1.getSize(), WINDOW_WIDTH / 2, 300);
+
         } else if (Game.getState() == GameState.LOSE) {
 
             // DRAWS BACKGROUND
@@ -92,6 +112,7 @@ public class Menu {
             g.setFont(fnt1);
 
             printStringCenter("Press Q to Quit", fnt1.getSize(), WINDOW_WIDTH / 2, 300);
+
         }
 
     }

@@ -1,6 +1,7 @@
 package objects;
 
 import framework.*;
+import window.Game;
 
 import java.awt.*;
 import java.util.List;
@@ -12,13 +13,13 @@ public class Explosion extends GameObject {
 
     // OBJECTS
     private Animation object_explosion;
-    private Texture tex;
     private SoundPlayer explosion_sound;
+    private Texture tex;
 
-    public Explosion(Entity entity, int x, int y, Texture tex) {
+    public Explosion(Entity entity, int x, int y) {
 
         super(entity, x, y);
-        this.tex = tex;
+        this.tex = Game.getInstance();
 
         explosion_sound = new SoundPlayer(2, tex.explosion_sound_path);
         object_explosion = new Animation(10, tex.sprite_explosion);

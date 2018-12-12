@@ -17,31 +17,34 @@ public class Asteroid extends MovableObject {
     // CONSTANTS
     private final int ASTEROID_WIDTH;
     private final int ASTEROID_HEIGHT;
-    private final int ASTEROID_SPEED;
+    private int asteroidSpeed;
 
     // VARIABLES
     private BufferedImage asteroidImage;
-    private Texture tex;
-    private Random rand = new Random();
-    private Handler handler;
+    private Random rand;
 
-    public Asteroid(Entity entity, int x, int y, int velX, int velY, int angle, Texture tex, Handler handler) {
+    // OBJECTS
+    private Handler handler;
+    private Texture tex;
+
+    public Asteroid(Entity entity, int x, int y, int velX, int velY, int angle, Handler handler) {
 
         super(entity, x, y, velX, velY, angle);
-        this.tex = tex;
+        this.rand = new Random();
         this.handler = handler;
+        this.tex = Game.getInstance();
 
         asteroidImage = tex.sprite_asteroid[rand.nextInt(180)];
         ASTEROID_WIDTH = tex.sprite_asteroid[0].getWidth();
         ASTEROID_HEIGHT = tex.sprite_asteroid[0].getHeight();
-        ASTEROID_SPEED = 2;
+        asteroidSpeed = 4;
 
     }
 
     @Override
     public void tick(List<GameObject> object) {
 
-        x -= ASTEROID_SPEED;
+        x -= asteroidSpeed;
 
         checkBorder();
         checkCollision();
@@ -58,7 +61,7 @@ public class Asteroid extends MovableObject {
 
                 if (player.isCollidable()) {
                     if (getBounds().intersects(player.getBounds())) {
-                        player.isDied();
+                        player.lose();
                         handler.removeObject(this);
                     }
                 }

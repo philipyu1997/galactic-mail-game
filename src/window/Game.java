@@ -1,9 +1,6 @@
 package window;
 
-import framework.Entity;
-import framework.GameState;
-import framework.Peripheral;
-import framework.Texture;
+import framework.*;
 import objects.Asteroid;
 import objects.Base;
 import objects.Player;
@@ -11,8 +8,10 @@ import objects.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.List;
 
@@ -22,28 +21,31 @@ import java.util.List;
 public class Game extends JPanel {
 
     // CONSTANTS
-    private final String GAME_TITLE = "Galactic Mail";
+    private static final String GAME_TITLE = "Galactic Mail";
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
 
     // GRAPHICS
-    private JFrame frame;
-    private BufferedImage world;
+    private BufferedImage world = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
     private Graphics2D buffer;
+    private JFrame frame;
+
+    // VARIABLES
+    private static int level;
 
     // OBJECTS
-    private static GameState State = GameState.GAME;
+    public static List<Base> baseList = new ArrayList<>();
     private static Game game;
+    private static GameState State;
     private static Handler handler;
     private static Texture tex;
-    private Menu menu;
-    private MapLoader mapLoader;
-    private Player player;
-    private Base base;
     private Asteroid asteroid;
-    private Statistics statistics;
+    private Base base;
+    private MapLoader mapLoader;
+    private Menu menu;
+    private Player player;
     private Random rand = new Random();
-    public static List<Base> baseList = new ArrayList<>();
+    private Statistics statistics;
 
     public static void main(String[] args) {
 
@@ -52,7 +54,7 @@ public class Game extends JPanel {
 
         try {
             while (true) {
-                tick();
+                game.tick();
                 game.repaint();
                 Thread.sleep(1000 / 144);
             }
@@ -62,39 +64,45 @@ public class Game extends JPanel {
 
     }
 
-    private static void tick() {
+    private void tick() {
 
         if (State == GameState.GAME) {
             handler.tick();
+
+            if (baseList.size() == player.getMoonCounter())
+                restart();
         }
 
     }
 
     private void init() {
 
+        State = GameState.MENU;
+        level++;
+
         requestFocus();
 
         frame = new JFrame(GAME_TITLE);
         world = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
-        menu = new Menu();
-
         tex = new Texture();
-
-        handler = new Handler(this);
-
+        menu = new Menu();
+        handler = new Handler();
         mapLoader = new MapLoader();
 
-        for (int i = 0; i < 3; ++i) {
+        tex.background_sound = new SoundPlayer(1, "resources/sound/Music.wav");
+
+        // INIT ASTEROIDS
+        for (int i = 0; i < level; ++i) {
             asteroid = new Asteroid(Entity.Asteroid,
                     rand.nextInt(WINDOW_WIDTH - tex.sprite_asteroid[0].getWidth()),
                     rand.nextInt(WINDOW_HEIGHT - tex.sprite_asteroid[0].getHeight()),
-                    0, 0, 0, tex, handler);
+                    0, 0, rand.nextInt(360), handler);
             handler.addObject(asteroid);
         }
 
-
-        for (int i = 0; i < 3; ++i) {
+        // INIT BASES
+        for (int i = 0; i < level; ++i) {
             base = new Base(Entity.Base,
                     rand.nextInt(WINDOW_WIDTH - tex.sprite_base[0].getWidth()),
                     rand.nextInt(WINDOW_HEIGHT - tex.sprite_base[0].getHeight()),
@@ -103,7 +111,8 @@ public class Game extends JPanel {
             handler.addObject(base);
         }
 
-        player = new Player(Entity.Flying, 100, 100, 0, 0, 0, tex, handler);
+        // INIT PLAYER
+        player = new Player(Entity.Flying, 100, 100, 0, 0, rand.nextInt(360), handler);
         handler.addObject(player);
 
         Peripheral pe1 = new Peripheral(player, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
@@ -115,7 +124,7 @@ public class Game extends JPanel {
         frame.addMouseMotionListener(pe1);
 
         // SETUP FRAME
-        frame.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         frame.add(this);
 
         frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -196,6 +205,26 @@ public class Game extends JPanel {
     public static void setBaseList(List<Base> baseList) {
 
         Game.baseList = baseList;
+
+    }
+
+    public void restart() {
+
+        setBaseList(new ArrayList<>());
+        player.setMoonCounter(0);
+        init();
+
+    }
+
+    public static int getLevel() {
+
+        return level;
+
+    }
+
+    public static void setLevel(int l) {
+
+        level = l;
 
     }
 

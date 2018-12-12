@@ -40,6 +40,10 @@ public class Statistics {
         drawString(g, "PlayerRev:" + player.getRevolutions());
         drawString(g, "");
         drawString(g, "Collide: " + player.isCollidable());
+        drawString(g, "Score: " + player.getScore());
+        drawString(g, "Moon: " + player.getMoonCounter());
+        drawString(g, "Base Total: " + Game.getBaseList().size());
+        drawString(g, "Level: " + Game.getLevel());
         drawString(g, "");
 
     }

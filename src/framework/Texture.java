@@ -15,7 +15,7 @@ public class Texture {
     private String o_png_path = "resources/images/png/original-png/";
     private String t_png_path = "resources/images/png/original-transparent/";
     private String asteroid_png_path = "resources/images/png/frames/transparent/Asteroid/";
-    private String bases_png_path = "resources/images/png/frames/transparent/Bases/";
+    private String base_png_path = "resources/images/png/frames/transparent/Base/";
     private String explosion_png_path = "resources/images/png/frames/transparent/Explosion/";
     private String null_path = "resources/images/png/frames/null.png";
     private String ext_png = ".png";
@@ -44,17 +44,16 @@ public class Texture {
 
         BufferedImageLoader loader = new BufferedImageLoader();
 
-        background_sound = new SoundPlayer(1, "resources/sound/Music.wav");
         explosion_sound_path = "resources/sound/Explosion.wav";
 
-        title = loader.loadImage(o_png_path + "Title" + ext_png);
+        title = loader.loadImage(t_png_path + "Title" + ext_png);
         background = loader.loadImage(o_png_path + "Background" + ext_png);
 
         sprite_flying = loader.loadImage(t_png_path + "Flying" + ext_png);
         sprite_landed = loader.loadImage(t_png_path + "Landed" + ext_png);
 
         for (int i = 0; i < sprite_base.length; ++i)
-            sprite_base[i] = loader.loadImage(bases_png_path + "Bases-" + i + ext_png);
+            sprite_base[i] = loader.loadImage(base_png_path + "Base-" + i + ext_png);
 
         for (int i = 0; i < sprite_explosion.length; ++i)
             sprite_explosion[i] = loader.loadImage(explosion_png_path + "Explosion-" + i + ext_png);

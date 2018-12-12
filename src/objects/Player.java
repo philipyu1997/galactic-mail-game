@@ -16,12 +16,13 @@ public class Player extends MovableObject {
 
     // CONSTANTS
     private final int MOVEMENT_SPEED = 4;
-    private final int ROTATION_SPEED = 2;
+    private final int ROTATION_SPEED = 1;
 
     // VARIABLES
+    private static int moonCounter;
+    private int score;
     private int width;
     private int height;
-    private int counter;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
@@ -30,12 +31,11 @@ public class Player extends MovableObject {
 
     // OBJECTS
     private BufferedImage playerImage;
+    private Explosion explosion;
     private Handler handler;
     private Texture tex;
-    private Explosion explosion;
 
-
-    public Player(Entity entity, int x, int y, int velX, int velY, int angle, Texture tex, Handler handler) {
+    public Player(Entity entity, int x, int y, int velX, int velY, int angle, Handler handler) {
 
         super(entity, x, y, velX, velY, angle);
         this.handler = handler;
@@ -43,6 +43,7 @@ public class Player extends MovableObject {
         this.width = tex.sprite_flying.getWidth();
         this.height = tex.sprite_flying.getHeight();
         this.collidable = true;
+        this.moonCounter = 0;
 
     }
 
@@ -65,13 +66,19 @@ public class Player extends MovableObject {
             rotateRight();
         }
 
+        if (moonCounter <= -5000) {
+            Game.setState(GameState.LOSE);
+        } else if (moonCounter >= 10000) {
+            Game.setState(GameState.WIN);
+        }
+
         checkBorder();
 
     }
 
-    public void isDied() {
+    public void lose() {
 
-        explosion = new Explosion(Entity.Explosion, x, y, tex);
+        explosion = new Explosion(Entity.Explosion, x, y);
         explosion.playExplosionSound();
         handler.addObject(explosion);
         handler.removeObject(this);
@@ -220,15 +227,27 @@ public class Player extends MovableObject {
 
     }
 
-    public int getCounter() {
+    public int getScore() {
 
-        return counter;
+        return score;
 
     }
 
-    public void setCounter(int counter) {
+    public void setScore(int score) {
 
-        this.counter = counter;
+        this.score = score;
+
+    }
+
+    public static int getMoonCounter() {
+
+        return moonCounter;
+
+    }
+
+    public static void setMoonCounter(int moon) {
+
+        moonCounter = moon;
 
     }
 
