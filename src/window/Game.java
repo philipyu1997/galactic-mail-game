@@ -1,9 +1,12 @@
 package window;
 
 import framework.GameState;
+import framework.Peripheral;
+import framework.Texture;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 /**
@@ -13,8 +16,6 @@ public class Game extends JPanel {
 
     // CONSTANTS
     private final String GAME_TITLE = "Galactic Mail";
-    private static final int GAME_WIDTH = 1280;
-    private static final int GAME_HEIGHT = 1280;
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
 
@@ -26,7 +27,9 @@ public class Game extends JPanel {
     // OBJECTS
     private static GameState State = GameState.MENU;
     private static Game game;
+    private static Texture tex;
     private Menu menu;
+    private MapLoader mapLoader;
 
     public static void main(String[] args) {
 
@@ -49,9 +52,19 @@ public class Game extends JPanel {
         requestFocus();
 
         frame = new JFrame(GAME_TITLE);
-        world = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        world = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         menu = new Menu();
+
+        tex = new Texture();
+
+        mapLoader = new MapLoader();
+
+        Peripheral pe1 = new Peripheral(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SPACE);
+
+        frame.addKeyListener(pe1);
+        frame.addMouseListener(pe1);
+        frame.addMouseMotionListener(pe1);
 
         // SETUP FRAME
         frame.setLayout(new BorderLayout());
@@ -77,23 +90,13 @@ public class Game extends JPanel {
             // RENDERS SCREEN
             g2.drawImage(world, 0, 0, null);
 
+            mapLoader.loadBackground(buffer);
+
         } else {
 
             menu.render(g);
 
         }
-
-    }
-
-    public static int getGameWidth() {
-
-        return GAME_WIDTH;
-
-    }
-
-    public static int getGameHeight() {
-
-        return GAME_HEIGHT;
 
     }
 
@@ -118,6 +121,12 @@ public class Game extends JPanel {
     public static void setState(GameState state) {
 
         State = state;
+
+    }
+
+    public static Texture getInstance() {
+
+        return tex;
 
     }
 
