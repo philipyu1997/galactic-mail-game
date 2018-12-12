@@ -1,8 +1,10 @@
 package window;
 
+import framework.Entity;
 import framework.GameState;
 import framework.Peripheral;
 import framework.Texture;
+import objects.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,9 +29,12 @@ public class Game extends JPanel {
     // OBJECTS
     private static GameState State = GameState.MENU;
     private static Game game;
+    private static Handler handler;
     private static Texture tex;
     private Menu menu;
     private MapLoader mapLoader;
+    private Player player;
+    private Statistics statistics;
 
     public static void main(String[] args) {
 
@@ -38,11 +43,20 @@ public class Game extends JPanel {
 
         try {
             while (true) {
+                tick();
                 game.repaint();
                 Thread.sleep(1000 / 144);
             }
         } catch (InterruptedException ignored) {
             System.out.println(ignored.getMessage());
+        }
+
+    }
+
+    private static void tick() {
+
+        if (State == GameState.GAME) {
+            handler.tick();
         }
 
     }
@@ -58,9 +72,16 @@ public class Game extends JPanel {
 
         tex = new Texture();
 
+        handler = new Handler(this);
+
         mapLoader = new MapLoader();
 
-        Peripheral pe1 = new Peripheral(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SPACE);
+        player = new Player(Entity.Flying, 100, 100, 0, 0, 0, tex, handler);
+        handler.addObject(player);
+
+        Peripheral pe1 = new Peripheral(player, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+
+        statistics = new Statistics(player);
 
         frame.addKeyListener(pe1);
         frame.addMouseListener(pe1);
@@ -81,16 +102,25 @@ public class Game extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
 
-        Graphics2D g2 = (Graphics2D) g;
-        buffer = world.createGraphics();
-        super.paintComponent(g2);
-
         if (State == GameState.GAME) {
+
+            Graphics2D g2 = (Graphics2D) g;
+            buffer = world.createGraphics();
+            super.paintComponent(g2);
+            ////////////////////////////////
+            // DRAW HERE
+
+            // RENDERS BACKGROUND
+            mapLoader.loadBackground(buffer);
+
+            // RENDERS OBJECTS
+            handler.render(buffer);
 
             // RENDERS SCREEN
             g2.drawImage(world, 0, 0, null);
 
-            mapLoader.loadBackground(buffer);
+            // USED FOR DEBUGGING - REMOVE ME
+            statistics.renderForeground(g);
 
         } else {
 

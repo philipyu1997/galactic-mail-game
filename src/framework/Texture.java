@@ -19,6 +19,8 @@ public class Texture {
     private String ext_gif = ".gif";
 
     // IMAGES
+    public BufferedImage sprite_flying;
+    public BufferedImage sprite_landed;
     public BufferedImage title;
     public BufferedImage background;
 
@@ -34,6 +36,9 @@ public class Texture {
 
         title = loader.loadImage(o_png_path + "Title" + ext_png);
         background = loader.loadImage(o_png_path + "Background" + ext_png);
+
+        sprite_flying = loader.loadImage(t_png_path + "Flying" + ext_png);
+        sprite_flying = loader.loadImage(t_png_path + "Landed" + ext_png);
 
     }
 

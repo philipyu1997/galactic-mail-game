@@ -1,5 +1,6 @@
 package framework;
 
+import objects.Player;
 import window.Game;
 
 import java.awt.event.*;
@@ -20,18 +21,15 @@ public class Peripheral extends KeyAdapter implements MouseListener, MouseMotion
     private int up, down, left, right, shoot;
 
     // OBJECTS
-//    private Player player;
+    private Player player;
 
-    //    public Peripheral(Player player, int up, int down, int left, int right, int shoot) {
-    public Peripheral(int up, int down, int left, int right, int shoot) {
+    public Peripheral(Player player, int up, int down, int left, int right) {
 
-
-//            this.player = player;
+        this.player = player;
         this.up = up;
         this.down = down;
         this.left = left;
         this.right = right;
-        this.shoot = shoot;
 
     }
 
@@ -74,23 +72,19 @@ public class Peripheral extends KeyAdapter implements MouseListener, MouseMotion
                 keysPressed.add(key);
 
             if (key == up) {
-//                player.toggleUpPressed();
+                player.toggleUpPressed();
             }
 
             if (key == down) {
-//                player.toggleDownPressed();
+                player.toggleDownPressed();
             }
 
             if (key == left) {
-//                player.toggleLeftPressed();
+                player.toggleLeftPressed();
             }
 
             if (key == right) {
-//                player.toggleRightPressed();
-            }
-
-            if (key == shoot) {
-//                player.toggleShootPressed();
+                player.toggleRightPressed();
             }
 
             if (key == KeyEvent.VK_M) {
@@ -153,23 +147,19 @@ public class Peripheral extends KeyAdapter implements MouseListener, MouseMotion
         keysPressed.remove((Integer) key);
 
         if (key == up) {
-//            player.unToggleUpPressed();
+            player.unToggleUpPressed();
         }
 
         if (key == down) {
-//            player.unToggleDownPressed();
+            player.unToggleDownPressed();
         }
 
         if (key == left) {
-//            player.unToggleLeftPressed();
+            player.unToggleLeftPressed();
         }
 
         if (key == right) {
-//            player.unToggleRightPressed();
-        }
-
-        if (key == shoot) {
-//            player.unToggleShootPressed();
+            player.unToggleRightPressed();
         }
 
     }
