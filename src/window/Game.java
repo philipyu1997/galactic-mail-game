@@ -156,7 +156,7 @@ public class Game extends JPanel {
             g2.drawImage(world, 0, 0, null);
 
             // USED FOR DEBUGGING - REMOVE ME
-            statistics.renderForeground(g);
+//            statistics.renderForeground(g);
 
         } else {
 
