@@ -27,7 +27,17 @@ the rocket is hit by an asteroid, and a high-score table will be displayed.
 
 ## Class Diagrams
 
+<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/class%20diagram.png" width=50%><br>
+
 ## Game Preview
+
+<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/menu.png" width=50%><br>
+
+<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/help.png" width=50%><br>
+
+<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/start.png" width=50%><br>
+
+<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/gameplay.png" width=50%><br>
 
 ## Credits
 
