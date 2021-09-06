@@ -27,17 +27,17 @@ the rocket is hit by an asteroid, and a high-score table will be displayed.
 
 ## Class Diagrams
 
-<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/class%20diagram.png" width=50%>
+<img src="https://raw.githubusercontent.com/py415/galactic-mail-game/master/screenshots/class%20diagram.png" width="50%" />
 
 ## Game Preview
 
-<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/menu.png" width=50%>
+<img src="https://raw.githubusercontent.com/py415/galactic-mail-game/master/screenshots/menu.png" width="50%" />
 
-<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/help.png" width=50%>
+<img src="https://raw.githubusercontent.com/py415/galactic-mail-game/master/screenshots/help.png" width="50%" />
 
-<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/start.png" width=50%>
+<img src="https://raw.githubusercontent.com/py415/galactic-mail-game/master/screenshots/start.png" width="50%" />
 
-<img src="https://github.com/philipyu1997/galactic-mail-game/blob/master/screenshots/gameplay.png" width=50%>
+<img src="https://raw.githubusercontent.com/py415/galactic-mail-game/master/screenshots/gameplay.png" width="50%" />
 
 ## Credits
 
